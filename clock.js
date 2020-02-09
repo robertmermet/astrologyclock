@@ -20,7 +20,7 @@ window.addEventListener('load', function load() {
         // Draw center dot
         ctx.fillStyle = '#bbb';
         ctx.beginPath();
-        ctx.arc(0, 0, radius * .008, 0, 2 * Math.PI);
+        ctx.arc(0, 0, radius * .007, 0, 2 * Math.PI);
         ctx.fill();
     })();
 
@@ -66,8 +66,8 @@ window.addEventListener('load', function load() {
         ctx.stroke();
         // Stellated dodecahedron
         ctx.lineWidth = radius * .008;
-        ctx.beginPath();
         for (let i = 0; i < 12; i++) {
+            ctx.beginPath();
             ctx.rotate(i * Math.PI / 6);
             ctx.moveTo(radius * .36, 0);
             ctx.rotate(1.0471975511965976);
@@ -92,9 +92,9 @@ window.addEventListener('load', function load() {
         ctx.arc(0, 0, radius * .9, 0, 2 * Math.PI);
         ctx.stroke();
         // Indices for signs
-        ctx.beginPath();
         for (let i = 0; i < 12; i++) {
             angle = (i + .5) * Math.PI / 6;
+            ctx.beginPath();
             ctx.rotate(angle);
             ctx.moveTo(radius * .4, 0);
             ctx.lineTo(radius * .7, 0);
@@ -102,9 +102,9 @@ window.addEventListener('load', function load() {
             ctx.rotate(-angle);
         }
         // Indices for hours
-        ctx.beginPath();
         for (let i = 0; i < 24; i++) {
             angle = (i + .5) * Math.PI / 12;
+            ctx.beginPath();
             ctx.rotate(angle);
             ctx.moveTo(radius * .7, 0);
             ctx.lineTo(radius * .9, 0);
@@ -112,9 +112,9 @@ window.addEventListener('load', function load() {
             ctx.rotate(-angle);
         }
         // Indices for minutes / seconds
-        ctx.beginPath();
         for (let i = 0; i < 60; i++) {
             angle = (i + .5) * Math.PI / 30;
+            ctx.beginPath();
             ctx.rotate(angle);
             ctx.moveTo(radius * .9, 0);
             ctx.lineTo(radius, 0);
@@ -133,7 +133,6 @@ window.addEventListener('load', function load() {
         ctx.fillStyle    = '#ddd';
         // 12 signs
         ctx.font = radius * 0.12 + 'px Astro';
-        ctx.beginPath();
         for (let i = 1; i < 13; i++) {
             angle = i * Math.PI / 6;
             if (i == currentSign) {
@@ -143,6 +142,7 @@ window.addEventListener('load', function load() {
             } else {
                 ctx.fillStyle = '#ddd';
             }
+            ctx.beginPath();
             ctx.rotate(angle);
             ctx.translate(0, -radius * 0.55);
             ctx.rotate(-angle);
@@ -153,9 +153,9 @@ window.addEventListener('load', function load() {
         }
         // 24 hours
         ctx.font = radius * 0.1 + 'px Astro';
-        ctx.beginPath();
         for (let i = 1; i < 25; i++) {
             angle = i * Math.PI / 12;
+            ctx.beginPath();
             ctx.fillStyle = (i === ((hour === 0) ? 24 : hour)) ? '#555' : '#ccc';
             ctx.rotate(angle);
             ctx.translate(0, -radius * 0.8);
@@ -167,10 +167,10 @@ window.addEventListener('load', function load() {
         }
         // 60 minutes / seconds
         ctx.font = radius * 0.04 + 'px arial';
-        ctx.beginPath();
         for (let i = 1; i < 61; i++) {
             angle = i * Math.PI / 30;
             ctx.fillStyle = (i === ((minute === 0) ? 60 : minute)) ? '#555' : '#ccc';
+            ctx.beginPath();
             ctx.rotate(angle);
             ctx.translate(0, -radius * 0.95);
             ctx.rotate(-angle);
