@@ -17,11 +17,6 @@ window.addEventListener('load', function load() {
         drawFace();
         drawNumerals();
         drawTime();
-        // Draw center dot
-        ctx.fillStyle = '#bbb';
-        ctx.beginPath();
-        ctx.arc(0, 0, radius * .007, 0, 2 * Math.PI);
-        ctx.fill();
     })();
 
     function resize() {
@@ -46,8 +41,8 @@ window.addEventListener('load', function load() {
         ctx.fillStyle = '#fff';
         ctx.fillRect(-canvas.width, -canvas.height, canvas.width * 2, canvas.height * 2);
         // Stellated dodecahedron inner circle fill
-        gradient.addColorStop(0, '#ddd');
-        gradient.addColorStop(.7, '#f3f3f3');
+        gradient.addColorStop(0, '#ccc');
+        gradient.addColorStop(1, '#eee');
         ctx.fillStyle = gradient;
         ctx.beginPath();
         ctx.arc(0, 0, radius * .4, 0, 2 * Math.PI);
@@ -77,7 +72,7 @@ window.addEventListener('load', function load() {
             ctx.rotate(-1.0471975511965976);
         }
         // Rings
-        ctx.strokeStyle = '#eee';
+        ctx.strokeStyle = '#ccc';
         ctx.lineWidth   = radius * .005;
         ctx.beginPath();
         ctx.arc(0, 0, radius, 0, 2 * Math.PI);
@@ -130,15 +125,15 @@ window.addEventListener('load', function load() {
             angle;
         ctx.textBaseline = 'middle';
         ctx.textAlign    = 'center';
-        ctx.fillStyle    = '#ddd';
+        ctx.fillStyle    = '#bbb';
         // 12 signs
         ctx.font = radius * 0.12 + 'px Astro';
         for (let i = 1; i < 13; i++) {
             angle = i * Math.PI / 6;
             if (i == currentSign) {
-                ctx.fillStyle = '#555';
+                ctx.fillStyle = '#333';
             } else if (currentSign % 2 == i % 2) {
-                ctx.fillStyle = '#aaa';
+                ctx.fillStyle = '#999';
             } else {
                 ctx.fillStyle = '#ddd';
             }
@@ -152,15 +147,15 @@ window.addEventListener('load', function load() {
             ctx.rotate(-angle);
         }
         // 24 hours
-        ctx.font = radius * 0.1 + 'px Astro';
+        ctx.font = radius * 0.06 + 'px arial';
         for (let i = 1; i < 25; i++) {
             angle = i * Math.PI / 12;
             ctx.beginPath();
-            ctx.fillStyle = (i === ((hour === 0) ? 24 : hour)) ? '#555' : '#ccc';
+            ctx.fillStyle = (i === ((hour === 0) ? 24 : hour)) ? '#333' : '#bbb';
             ctx.rotate(angle);
             ctx.translate(0, -radius * 0.8);
             ctx.rotate(-angle);
-            ctx.fillText(i, 0, 0);
+            ctx.fillText(i, 0, radius * .003);
             ctx.rotate(angle);
             ctx.translate(0, radius * 0.8);
             ctx.rotate(-angle);
@@ -169,12 +164,12 @@ window.addEventListener('load', function load() {
         ctx.font = radius * 0.04 + 'px arial';
         for (let i = 1; i < 61; i++) {
             angle = i * Math.PI / 30;
-            ctx.fillStyle = (i === ((minute === 0) ? 60 : minute)) ? '#555' : '#ccc';
+            ctx.fillStyle = (i === ((minute === 0) ? 60 : minute)) ? '#333' : '#bbb';
             ctx.beginPath();
             ctx.rotate(angle);
             ctx.translate(0, -radius * 0.95);
             ctx.rotate(-angle);
-            ctx.fillText((i < 10) ? '0' + i : i, 0, 0);
+            ctx.fillText((i < 10) ? '0' + i : i, 0, radius * .003);
             ctx.rotate(angle);
             ctx.translate(0, radius * 0.95);
             ctx.rotate(-angle);
@@ -186,32 +181,33 @@ window.addEventListener('load', function load() {
             minute   = date.getMinutes(),
             second   = date.getSeconds(),
             millisec = date.getMilliseconds(),
+            gradient = ctx.createRadialGradient(0, 0, radius * .1, 0, 0, radius * .4),
             drawSign;
+        gradient.addColorStop(0, '#bbb');
+        gradient.addColorStop(1, '#444');
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth   = radius * 0.004;
+        ctx.lineCap     = 'round';
         // Draw sign hand
         drawSign = ((sign - .5) * Math.PI / 6);
-        ctx.strokeStyle = '#c3c3c3';
-        drawHand(ctx, drawSign, radius * 0.4, radius * 0.004);
+        drawHand(ctx, drawSign, radius * 0.4);
         // Draw hour hand
         hour = ((hour - 0.5) * Math.PI / 12) +
                (minute * Math.PI / (12 * 60)) +
                (second * Math.PI / (720 * 60));
-        ctx.strokeStyle = '#bbb';
-        drawHand(ctx, hour, radius * 0.7, radius * 0.0035);
+        drawHand(ctx, hour, radius * 0.7);
         // Draw minute hand
         minute = ((minute - 0.5) * Math.PI / 30) +
                  (second * Math.PI / (30 * 60)) +
                  (millisec * Math.PI / (30 * 60000));
-        ctx.strokeStyle = '#b3b3b3';
-        drawHand(ctx, minute, radius * 0.9, radius * 0.003);
+        drawHand(ctx, minute, radius * 0.9);
         // Draw second hand
+        ctx.lineWidth   = radius * 0.002;
         second = ((second - 0.5) * Math.PI / 30) + (millisec * Math.PI / (30 * 1000));
-        ctx.strokeStyle = '#aaa';
-        drawHand(ctx, second, radius, radius * 0.002);
+        drawHand(ctx, second, radius);
     }
 
-    function drawHand(ctx, pos, length, width) {
-        ctx.lineWidth = width;
-        ctx.lineCap   = 'round';
+    function drawHand(ctx, pos, length) {
         ctx.beginPath();
         ctx.moveTo(0, 0);
         ctx.rotate(pos);
