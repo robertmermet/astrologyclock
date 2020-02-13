@@ -202,7 +202,7 @@ window.addEventListener('load', function load() {
                  (millisec * Math.PI / (30 * 60000));
         drawHand(ctx, minute, radius * 0.9);
         // Draw second hand
-        ctx.lineWidth   = radius * 0.002;
+        ctx.lineWidth = radius * 0.002;
         second = ((second - 0.5) * Math.PI / 30) + (millisec * Math.PI / (30 * 1000));
         drawHand(ctx, second, radius);
     }
